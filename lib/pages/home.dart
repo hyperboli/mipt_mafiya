@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: const Text('Мафиозник'),
+        title: const Text('Мафия'),
       ),
       //Column - отображает виджеты в столбике
       body: Center(
@@ -53,7 +53,7 @@ class Home extends StatelessWidget {
             height: 60,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(context, '/client_connect', (route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, '/client_connect', (route) => true);
                 //скрываем меню
                 //Navigator.pop(context);
                 //Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);

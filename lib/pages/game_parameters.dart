@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nearby_connections/flutter_nearby_connections.dart';
+import 'package:mafiya/const.dart';
 
 //на сервере задаются параметры игры
 
@@ -25,7 +26,7 @@ class _GameParameters extends State<GameParameters> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blueGrey,
-          title: const Text('Мафиозник'),
+          title: const Text('Мафия'),
         ),
         //Column - отображает виджеты в столбике
         body: Center(
@@ -104,7 +105,7 @@ class _GameParameters extends State<GameParameters> {
                       height: 30,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(context, '/server_start', (route) => false);
+                          Navigator.pushNamedAndRemoveUntil(context, '/server_start', (route) => true, arguments: ServerStartArguments("PICK1", "PICK1"));
                         },
                         child: Text(
                           'Далее',

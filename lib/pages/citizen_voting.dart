@@ -23,7 +23,7 @@ class _CitizenVoting extends State<CitizenVoting> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blueGrey,
-          title: const Text('Мафиозник'),
+          title: const Text('Мафия'),
         ),
         //Column - отображает виджеты в столбике
         body: Center(

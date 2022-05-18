@@ -11,6 +11,7 @@ import 'package:mafiya/pages/mafiya_attack.dart';
 import 'package:mafiya/pages/citizen_voting.dart';
 import 'package:mafiya/pages/client_connect.dart';
 import 'package:mafiya/pages/server_start.dart';
+import 'package:mafiya/const.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,6 +19,7 @@ void main() {
 
 //маршрутизация
 Route<dynamic> generateRoute(RouteSettings settings) {
+  final arguments = settings.arguments;
   switch (settings.name) {
     case '/':
       return MaterialPageRoute(builder: (_) => Home());
@@ -30,7 +32,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/client_connect':
       return MaterialPageRoute(builder: (_) => ClientConnect());
     case '/server_start':
-      return MaterialPageRoute(builder: (_) => ServerStart());
+      if(arguments is ServerStartArguments) {
+        return MaterialPageRoute(builder: (_) => ServerStart(args: arguments));
+      }
+      else{
+        final arg1 = ServerStartArguments("LOL1", "LOL2");
+        return MaterialPageRoute(builder: (_) => ServerStart(args: arg1));
+      }
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

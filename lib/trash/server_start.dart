@@ -6,36 +6,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nearby_connections/flutter_nearby_connections.dart';
-import 'package:mafiya/const.dart';
 
 //сервер подключает клиентов
 
 class ServerStart extends StatefulWidget {
-  late String text;
-  late ServerStartArguments args;
-
-
-  //const ServerStart({Key? key}): super(key: key);
-  ServerStart({Key? key, required this.args}) : super(key: key);
-
+  const ServerStart({Key? key}): super(key: key);
 
   final DeviceType deviceType = DeviceType.browser;
 
   @override
-  State<ServerStart> createState() => _ServerStart(args);
+  State<ServerStart> createState() => _ServerStart();
 }
 
 enum DeviceType { advertiser, browser }
 
 class _ServerStart extends State<ServerStart> {
-  late ServerStartArguments args;
-  late String text;
-
-
-  _ServerStart(ServerStartArguments argsp){
-    args = argsp;
-    text = args.message;
-  }
 
   //Вырезка из ptp
   List<Device> devices = []; //скисок вроде всех девайсов
@@ -62,117 +47,69 @@ class _ServerStart extends State<ServerStart> {
           title: const Text('Мафия'),
         ),
         body: Column(
-            children: [
-              Text(text),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: getItemCount(),
-                  itemBuilder: (context, index) {
-                    final device = widget.deviceType == DeviceType.advertiser
-                        ? connectedDevices[index]
-                        : devices[index];
-                    return Container(
-                      margin: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: GestureDetector(
-                                    onTap: () => _onTabItemListener(device),
-                                    child: Column(
-                                      children: [
-                                        Text(device.deviceName),
-                                        Text(
-                                          getStateName(device.state),
-                                          style: TextStyle(
-                                              color: getStateColor(device.state)),
-                                        ),
-                                      ],
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                    ),
-                                  )),
-                              // Request connect
-                              //GestureDetector - обработка нажатия на любой виджет
-                              GestureDetector(
-                                onTap: () => _onButtonClicked(device),
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 8.0),
-                                  padding: EdgeInsets.all(8.0),
-                                  height: 35,
-                                  width: 100,
-                                  color: getButtonColor(device.state),
-                                  child: Center(
-                                    child: Text(
-                                      getButtonStateName(device.state),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8.0,
-                          ),
-                          Divider(
-                            height: 1,
-                            color: Colors.grey,
-                          )
-                        ],
-                      ),
-                    );
-                  }),
-              //кнопки навигации внизу
-              Container(
-                width: 300,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: getItemCount(),
+            itemBuilder: (context, index) {
+              final device = widget.deviceType == DeviceType.advertiser
+                  ? connectedDevices[index]
+                  : devices[index];
+              return Container(
+                margin: EdgeInsets.all(8.0),
+                child: Column(
                   children: [
-
-                    //кнопка назад
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      width: 80,
-                      height: 30,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-                        },
-                        child: Text(
-                          'Назад',
-                          style: TextStyle(
-                            fontSize: 14,
+                    Row(
+                      children: [
+                        Expanded(
+                            child: GestureDetector(
+                              onTap: () => _onTabItemListener(device),
+                              child: Column(
+                                children: [
+                                  Text(device.deviceName),
+                                  Text(
+                                    getStateName(device.state),
+                                    style: TextStyle(
+                                        color: getStateColor(device.state)),
+                                  ),
+                                ],
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                              ),
+                            )),
+                        // Request connect
+                        //GestureDetector - обработка нажатия на любой виджет
+                        GestureDetector(
+                          onTap: () => _onButtonClicked(device),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: EdgeInsets.all(8.0),
+                            height: 35,
+                            width: 100,
+                            color: getButtonColor(device.state),
+                            child: Center(
+                              child: Text(
+                                getButtonStateName(device.state),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        )
+                      ],
                     ),
-
-                    //кнопка далее
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      width: 80,
-                      height: 30,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(context, '/server_start', (route) => true);
-                        },
-                        child: Text(
-                          'Далее',
-                          style: TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
+                    SizedBox(
+                      height: 8.0,
                     ),
-
+                    Divider(
+                      height: 1,
+                      color: Colors.grey,
+                    )
                   ],
                 ),
-              )
-
-            ])
+              );
+            })
+        ])
     );
   }
 
