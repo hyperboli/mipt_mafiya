@@ -12,13 +12,13 @@ import 'package:flutter_nearby_connections/flutter_nearby_connections.dart';
 class ClientConnect extends StatefulWidget {
   const ClientConnect({Key? key}): super(key: key);
 
-  final DeviceType deviceType = DeviceType.advertiser;
+  final DeviceType deviceType = DeviceType.advertiser; //указали страницу как приём клиентов
 
   @override
   State<ClientConnect> createState() => _ClientConnect();
 }
 
-enum DeviceType { advertiser, browser }
+//enum DeviceType { advertiser, browser }
 
 class _ClientConnect extends State<ClientConnect> {
 

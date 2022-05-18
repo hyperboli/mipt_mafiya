@@ -18,7 +18,7 @@ class ServerStart extends StatefulWidget {
   //const ServerStart({Key? key}): super(key: key);
   ServerStart({Key? key, required this.args}) : super(key: key);
 
-
+  //Обозначаем - что это сервер (в примере по nearbyService клиент и сервер были в одном файле и различались по этой переменной)
   final DeviceType deviceType = DeviceType.browser;
 
   @override
@@ -30,6 +30,8 @@ enum DeviceType { advertiser, browser }
 class _ServerStart extends State<ServerStart> {
   late ServerStartArguments args;
   late String text;
+
+  String messageFromClient = "From Client Message";
 
 
   _ServerStart(ServerStartArguments argsp){
@@ -64,6 +66,7 @@ class _ServerStart extends State<ServerStart> {
         body: Column(
             children: [
               Text(text),
+              Text(messageFromClient),
               ListView.builder(
                   shrinkWrap: true,
                   itemCount: getItemCount(),
@@ -199,7 +202,7 @@ class _ServerStart extends State<ServerStart> {
                   onPressed: () {
                     //ОТПРАВКА СООБЩЕНИЯ !!!
                     nearbyService.sendMessage(
-                        device.deviceId, myController.text);
+                        device.deviceId, myController.text.toString());
                     myController.text = '';
                   },
                 )
@@ -226,6 +229,7 @@ class _ServerStart extends State<ServerStart> {
     }
   }
 
+  //получить к-во девайсов
   int getItemCount() {
     if (widget.deviceType == DeviceType.advertiser) {
       return connectedDevices.length;
@@ -280,7 +284,7 @@ class _ServerStart extends State<ServerStart> {
     }
   }
 
-  //Хз как и зачем работающий асинхронный обработчик, но пусть будет
+  //Постоянное параллельное считывание (напримаер - приём данных)
   void init() async {
     nearbyService = NearbyService();
     String devInfo = '';
@@ -339,9 +343,12 @@ class _ServerStart extends State<ServerStart> {
           });
         });
 
+    //постоянно принимает данные json !!!-----------------------------------------------
     receivedDataSubscription =
         nearbyService.dataReceivedSubscription(callback: (data) {
-          print("dataReceivedSubscription: ${jsonEncode(data)}");
+          print("dataReceivedSubscription: ${(data)}");
+          //final Map<String, dynamic> json_result = jsonDecode(data['message'].toString());
+          print("&&**&&JFJFJFJ: ${data['message']}");
           showToast(jsonEncode(data),
               context: context,
               axis: Axis.horizontal,
