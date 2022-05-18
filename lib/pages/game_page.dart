@@ -14,14 +14,21 @@ import 'package:mafiya/const.dart';
 //============================================================================
 
 class GamePage extends StatefulWidget {
-  const GamePage({required this.deviceType});
+  late GameParameters args; //Параметры игры описанные в const.dart
 
   //переменная, обозначающая - сервер или клиент
   //Пример: widget.deviceType == DeviceType.advertiser
-  final DeviceType deviceType;
+  late final DeviceType deviceType;
 
+  //Конструктор - требуем параметры игры
+  GamePage({Key? key, required this.args}) : super(key: key){
+    //сразу получаем информацию о роли устройства (сервер/клиент)
+    deviceType = args.deviceType;
+  }
+
+  //Вызываем дочерний статический класс
   @override
-  _GamePage createState() => _GamePage();
+  _GamePage createState() => _GamePage(args);
 }
 
 class _GamePage extends State<GamePage> {
@@ -31,7 +38,12 @@ class _GamePage extends State<GamePage> {
   late StreamSubscription subscription;
   late StreamSubscription receivedDataSubscription;
 
+  late GameParameters args;
+
   bool isInit = false;
+
+  //Конструктор - требуем аргументов (параметры игры)
+  _GamePage(this.args);
 
   @override
   void initState() {
@@ -66,6 +78,9 @@ class _GamePage extends State<GamePage> {
         body: Column(
           children: [
             Text("Сетевое подключение"),
+            if(widget.deviceType == DeviceType.browser)Text("Число мафий: ${args.numberOfMafias}"),
+            if(widget.deviceType == DeviceType.browser)Text("Число горожан: ${args.numberOfMafias}"),
+            if(widget.deviceType == DeviceType.browser && args.doctorExists)Text("Доктор есть")else if(widget.deviceType == DeviceType.browser)Text("Доктора нет"),
             ListView.builder(
               shrinkWrap: true, //для того чтоб список можно было поместить в другой виджет
               itemCount: getItemCount(),

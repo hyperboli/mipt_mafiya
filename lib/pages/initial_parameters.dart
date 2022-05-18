@@ -13,16 +13,19 @@ import 'package:mafiya/const.dart';
 //----Тут выбираются параметры игры, игрок выбирает сервер он или клиент----
 //==========================================================================
 
-class GameParameters extends StatefulWidget {
-  const GameParameters({Key? key}): super(key: key);
+class InitialParameters extends StatefulWidget {
+  const InitialParameters({Key? key}): super(key: key);
 
   @override
-  State<GameParameters> createState() => _GameParameters();
+  State<InitialParameters> createState() => _InitialParameters();
 }
 
-class _GameParameters extends State<GameParameters> {
+class _InitialParameters extends State<InitialParameters> {
 
-  bool _doctorExists = false;
+  bool _doctorExists = false; //параметр наличия доктора
+
+  var _controllerNumberOfMafias = TextEditingController();
+  var _controllerNumberOfPeaceful = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,24 +46,29 @@ class _GameParameters extends State<GameParameters> {
                 ),
               ),
 
+              //Ввод числа мафий
               Container(
                 width: 300,
                 child: TextField(
+                  controller: _controllerNumberOfMafias,
                   decoration: InputDecoration(labelText: "число мафий"),
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ),
 
+              //Ввод числа мирных
               Container(
                 width: 300,
                 child: TextField(
-                  decoration: InputDecoration(labelText: "число горожан"),
+                  controller: _controllerNumberOfPeaceful,
+                  decoration: InputDecoration(labelText: "число мирных"),
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
               ),
 
+              //Галочка наличия доктора
               Container(
                 width: 300,
                 child: CheckboxListTile(
@@ -89,7 +97,13 @@ class _GameParameters extends State<GameParameters> {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, '/server', (route) => false);
+                    //==============================ОТПРАВКА ПАРАМЕТРОВ ИГРЫ НА СЕРВЕР ===================================
+                    Navigator.pushNamedAndRemoveUntil(context, '/server', (route) => false, arguments: GameParameters(
+                      DeviceType.browser,
+                      int.parse(_controllerNumberOfMafias.text),
+                      int.parse(_controllerNumberOfPeaceful.text),
+                      _doctorExists,
+                    ));
                   },
                   child: Text(
                     'Сервер',
@@ -107,10 +121,12 @@ class _GameParameters extends State<GameParameters> {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, '/client', (route) => false);
-                    //скрываем меню
-                    //Navigator.pop(context);
-                    //Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                    Navigator.pushNamedAndRemoveUntil(context, '/server', (route) => false, arguments: GameParameters(
+                      DeviceType.advertiser,
+                      int.parse(_controllerNumberOfMafias.text),
+                      int.parse(_controllerNumberOfPeaceful.text),
+                      _doctorExists,
+                    ));
                   },
                   child: Text(
                     'Клиент',

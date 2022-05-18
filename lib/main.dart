@@ -19,13 +19,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   final arguments = settings.arguments;
   switch (settings.name) {
     case '/':
-      return MaterialPageRoute(builder: (_) => GameParameters());
+      return MaterialPageRoute(builder: (_) => InitialParameters());
+
     case '/server':
-      return MaterialPageRoute(
-          builder: (_) => GamePage(deviceType: DeviceType.browser));
-    case '/client':
-      return MaterialPageRoute(
-          builder: (_) => GamePage(deviceType: DeviceType.advertiser));
+      if(arguments is GameParameters) {
+        return MaterialPageRoute(
+            builder: (_) => GamePage(args: arguments));
+      }
+      else{
+        return MaterialPageRoute(builder: (_) => InitialParameters());
+      }
 
   //Пока оставил как пример передачи аргументов
     //case '/server_start':
