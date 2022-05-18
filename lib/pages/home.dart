@@ -9,8 +9,12 @@ import 'package:flutter_nearby_connections/flutter_nearby_connections.dart';
 //выбор сервер-клиент
 
 class Home extends StatelessWidget {
+
+  //String debugJson = '{"name": "John Smith","email": "john@example.com"}';
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -21,6 +25,7 @@ class Home extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          //Text('We sent the verification link to ${debugJsonMap['email']}.'),
           Text(
             'Режим устройства:',
             style: TextStyle(

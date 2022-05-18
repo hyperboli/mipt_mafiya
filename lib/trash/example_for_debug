@@ -1,0 +1,7 @@
+  json
+
+    String json = jsonEncode({"name": "John Smith","email": "john@example.com"});
+    Map<String, dynamic> debugJsonMap = jsonDecode(json);
+
+    print('Howdy, ${debugJsonMap['name']}!');
+    //print('We sent the verification link to ${debugJsonMap['email']}.');
