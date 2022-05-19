@@ -9,7 +9,19 @@ class GameParameters{
   GameParameters(this.deviceType, this.numberOfMafias, this.numberOfPeaceful, this.doctorExists);
 }
 
+//тип - сервер или клиент
 enum DeviceType { advertiser, browser }
+
+//0 - мирный
+//1 - мафия
+//2 - доктор
+
+//Возвращает название роли по его номеру
+Map<int, String> rolesName = {
+  0: "мирный",
+  1: "мафия",
+  2: "доктор",
+};
 
 //далее всё ненужное
 
